@@ -89,12 +89,15 @@ describe("history scroll mode resolution", () => {
     expect(resolveHistoryScrollMode({ configured: "auto", env: { WT_SESSION: "abc" } })).toBe(
       "app",
     );
-    expect(resolveHistoryScrollMode({ configured: "auto", env: { TERM_PROGRAM: "ghostty" } })).toBe(
-      "app",
-    );
   });
 
-  it("keeps native scrollback for unknown terminals in auto mode", () => {
+  it("keeps native scrollback for ghostty and unknown terminals in auto mode", () => {
+    expect(resolveHistoryScrollMode({ configured: "auto", env: { TERM_PROGRAM: "ghostty" } })).toBe(
+      "native",
+    );
+    expect(resolveHistoryScrollMode({ configured: "auto", env: { TERM: "xterm-ghostty" } })).toBe(
+      "native",
+    );
     expect(
       resolveHistoryScrollMode({
         configured: "auto",

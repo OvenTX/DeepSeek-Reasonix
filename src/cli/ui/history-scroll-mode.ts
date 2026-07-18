@@ -24,9 +24,11 @@ export function resolveHistoryScrollMode({
 
 function isKnownJumpProneTerminal(env: NodeJS.ProcessEnv | Record<string, string | undefined>) {
   const termProgram = (env.TERM_PROGRAM ?? "").toLowerCase();
-  if (termProgram === "vscode" || termProgram === "ghostty") return true;
+  if (termProgram === "vscode") return true;
   if (typeof env.WT_SESSION === "string" && env.WT_SESSION.length > 0) return true;
   if (typeof env.MSYSTEM === "string" && env.MSYSTEM.length > 0) return true;
-  if ((env.TERM ?? "").toLowerCase().includes("xterm-ghostty")) return true;
+  // Ghostty was bundled here in #1766, but app mode costs users their native
+  // wheel scrollback, so auto keeps it native. `historyScrollMode: "app"`
+  // remains the opt-in if native redraws ever jump.
   return false;
 }
