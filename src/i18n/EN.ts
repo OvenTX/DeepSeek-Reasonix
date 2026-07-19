@@ -1940,7 +1940,7 @@ export const EN: TranslationSchema = {
     scrollAbovePlural: " \u2191 {scroll} / {max} rows above",
     scrollMore: " \u2014 {remaining} more",
     scrollPgUp: " \u00b7 PgUp / wheel",
-    scrollCopy: " \u00b7 /copy enters copy mode",
+    scrollCopy: " \u00b7 Shift+drag to copy",
   },
   slashArgPicker: {
     noMatch: 'no match for "{partial}"',

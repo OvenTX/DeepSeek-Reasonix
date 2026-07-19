@@ -54,14 +54,7 @@
       "The default path is <strong>terminal-native</strong>. Drag to select, then use your terminal's normal copy keys:",
     "cp.h.drag": "When drag-select doesn't work",
     "cp.body.drag":
-      "In SSH / mosh / tmux, the alt-screen buffer prevents the terminal from extending the selection past the visible viewport — there is no scrollback above the alt-screen to drag into. Two fixes:",
-    "cp.fix1":
-      "<strong><code>/copy</code></strong> — open vim/tmux-style copy mode in-app. Snapshots the current chat to a navigable buffer; <code>y</code> yanks to clipboard via OSC 52 (with a temp-file fallback for terminals that don't support it).",
-    "cp.fix2":
-      "<strong><code>--no-alt-screen</code></strong> — render to shell scrollback instead. Drag-select then works terminal-natively (the chat content is real lines in the scrollback above your cursor). Trade-off: redraw can ghost on resize.",
-    "cp.h.copymode": "<code>/copy</code> — copy mode keys",
-    "cp.body.osc":
-      "<code>y</code> with no active selection yanks just the current line. The yank goes through OSC 52 first (works through SSH, mosh, tmux with <code>set -g set-clipboard on</code>); content larger than 75 KB falls back to a temp file whose path is printed on exit.",
+      "The chat UI is append-only in the main buffer, so the terminal's native scrollback and selection always work. If <code>mouseTracking</code> is on (the default), plain drags are reported to the app — hold <code>Shift</code> while dragging to fall through to the terminal's native selection. Set <code>mouseTracking: false</code> in <code>~/.reasonix/config.json</code> to skip mouse capture entirely. In SSH / mosh / tmux, use the same Shift+drag or the multiplexer/terminal's own copy mode.",
   };
 
   var zh = {
@@ -112,14 +105,7 @@
       "默认走<strong>终端原生</strong>路径。拖拽选中文本，再用终端本身的复制快捷键：",
     "cp.h.drag": "拖拽选择不生效时",
     "cp.body.drag":
-      "SSH / mosh / tmux 下，alt-screen 缓冲区会阻止终端把选区延伸到可视视口以外——alt-screen 上方根本没有 scrollback 可拖入。两种解决方式：",
-    "cp.fix1":
-      "<strong><code>/copy</code></strong> — 在应用内打开 vim/tmux 风格的复制模式，把当前聊天快照到可导航的缓冲区；<code>y</code> 通过 OSC 52 复制到剪贴板（不支持 OSC 52 的终端会退到临时文件）。",
-    "cp.fix2":
-      "<strong><code>--no-alt-screen</code></strong> — 改为渲染到 shell scrollback。拖拽选择恢复终端原生（聊天内容就是光标上方的真实行）。代价：窗口大小改变时可能出现重绘残影。",
-    "cp.h.copymode": "<code>/copy</code> — 复制模式快捷键",
-    "cp.body.osc":
-      "没有活动选区时按 <code>y</code> 只复制当前行。复制先走 OSC 52（通过 SSH、mosh、开了 <code>set -g set-clipboard on</code> 的 tmux 均可用）；超过 75 KB 的内容退到临时文件，路径在退出时打印。",
+      "聊天界面在主缓冲区追加渲染，终端原生 scrollback 和选择始终可用。开启 <code>mouseTracking</code>（默认）时，普通拖拽会被上报给应用——按住 <code>Shift</code> 拖拽即可回退到终端原生选择。在 <code>~/.reasonix/config.json</code> 里设 <code>mouseTracking: false</code> 可完全关闭鼠标捕获。SSH / mosh / tmux 下同样用 Shift+拖拽，或使用复用器/终端自带的复制模式。",
   };
 
   var DICT = { en: en, zh: zh };

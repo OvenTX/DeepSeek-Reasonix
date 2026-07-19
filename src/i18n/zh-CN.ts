@@ -1833,7 +1833,7 @@ export const zhCN: TranslationSchema = {
     scrollAbovePlural: " \u2191 {scroll}/{max} 行",
     scrollMore: " \u2014 还有 {remaining} 行",
     scrollPgUp: " \u00b7 PgUp/\u6eda\u8f6e",
-    scrollCopy: " \u00b7 /copy \u8fdb\u5165\u590d\u5236\u6a21\u5f0f",
+    scrollCopy: " \u00b7 Shift+\u62d6\u62fd\u590d\u5236",
   },
   slashArgPicker: {
     noMatch: '\u6ca1\u6709\u5339\u914d "{partial}"',

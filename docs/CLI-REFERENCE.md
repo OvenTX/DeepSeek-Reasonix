@@ -57,7 +57,6 @@ Type `/` mid-chat to open the picker. Aliases shown in parentheses. Code-mode-on
 | `/retry` | Truncate and resend your last message — fresh sample |
 | `/compact` | Fold older turns into a summary (cache-safe). Auto-fires at 50% ctx; this is the manual trigger |
 | `/stop` | Abort the current model turn (typed alternative to Esc) |
-| `/copy` | Open vim/tmux-style copy mode — `j`/`k` navigate, `v` select, `y` yank to clipboard. The right answer for SSH / mosh / tmux where drag-select can't extend past the viewport |
 
 ### Setup
 
@@ -193,24 +192,7 @@ The default path is **terminal-native**. Drag to select, then use your terminal'
 
 ### When drag-select doesn't work
 
-In SSH / mosh / tmux, the alt-screen buffer prevents the terminal from extending the selection past the visible viewport — there is no scrollback above the alt-screen to drag into. Two fixes:
-
-1. **`/copy`** — open vim/tmux-style copy mode in-app. Snapshots the current chat to a navigable buffer; `y` yanks to clipboard via OSC 52 (with a temp-file fallback for terminals that don't support it).
-2. **`--no-alt-screen`** — render to shell scrollback instead. Drag-select then works terminal-natively (the chat content is real lines in the scrollback above your cursor). Trade-off: redraw can ghost on resize.
-
-### `/copy` — copy mode keys
-
-| Key | What it does |
-|---|---|
-| `j` / `↓` | Cursor down one line |
-| `k` / `↑` | Cursor up one line |
-| `PgUp` / `PgDn` | Page up / down |
-| `g` / `G` | Jump to top / bottom |
-| `v` | Start (or cancel) selection at the cursor |
-| `y` / `Enter` | Yank selection to clipboard, exit |
-| `q` / `Esc` | Quit without yanking |
-
-`y` with no active selection yanks just the current line. The yank goes through OSC 52 first (works through SSH, mosh, tmux with `set -g set-clipboard on`); content larger than 75 KB falls back to a temp file whose path is printed on exit.
+The chat UI is append-only in the main buffer, so the terminal's native scrollback and selection always work. If `mouseTracking` is on (the default), plain drags are reported to the app — hold `Shift` while dragging to fall through to the terminal's native selection. Set `mouseTracking: false` in `~/.reasonix/config.json` to skip mouse capture entirely. In SSH / mosh / tmux, use the same Shift+drag or the multiplexer/terminal's own copy mode.
 
 ---
 

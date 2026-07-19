@@ -344,10 +344,6 @@
                   <td><code>/stop</code></td>
                   <td>Abort the current model turn (typed alternative to Esc)</td>
                 </tr>
-                <tr>
-                  <td><code>/copy</code></td>
-                  <td>Open vim/tmux-style copy mode — <code>j</code>/<code>k</code> navigate, <code>v</code> select, <code>y</code> yank to clipboard. The right answer for SSH / mosh / tmux where drag-select can't extend past the viewport</td>
-                </tr>
               </tbody>
             </table>
 
@@ -726,69 +722,13 @@
 
             <h3 data-i18n="cp.h.drag">When drag-select doesn't work</h3>
             <p data-i18n="cp.body.drag">
-              In SSH / mosh / tmux, the alt-screen buffer prevents the terminal from extending
-              the selection past the visible viewport — there is no scrollback above the
-              alt-screen to drag into. Two fixes:
-            </p>
-            <ol>
-              <li data-i18n="cp.fix1">
-                <strong><code>/copy</code></strong> — open vim/tmux-style copy mode in-app.
-                Snapshots the current chat to a navigable buffer; <code>y</code> yanks to
-                clipboard via OSC 52 (with a temp-file fallback for terminals that don't
-                support it).
-              </li>
-              <li data-i18n="cp.fix2">
-                <strong><code>--no-alt-screen</code></strong> — render to shell scrollback
-                instead. Drag-select then works terminal-natively (the chat content is real
-                lines in the scrollback above your cursor). Trade-off: redraw can ghost on
-                resize.
-              </li>
-            </ol>
-
-            <h3 data-i18n="cp.h.copymode"><code>/copy</code> — copy mode keys</h3>
-            <table class="cmd-table">
-              <thead>
-                <tr>
-                  <th data-i18n="th.key">Key</th>
-                  <th data-i18n="th.what">What it does</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><code>j</code> / <code>↓</code></td>
-                  <td>Cursor down one line</td>
-                </tr>
-                <tr>
-                  <td><code>k</code> / <code>↑</code></td>
-                  <td>Cursor up one line</td>
-                </tr>
-                <tr>
-                  <td><code>PgUp</code> / <code>PgDn</code></td>
-                  <td>Page up / down</td>
-                </tr>
-                <tr>
-                  <td><code>g</code> / <code>G</code></td>
-                  <td>Jump to top / bottom</td>
-                </tr>
-                <tr>
-                  <td><code>v</code></td>
-                  <td>Start (or cancel) selection at the cursor</td>
-                </tr>
-                <tr>
-                  <td><code>y</code> / <code>Enter</code></td>
-                  <td>Yank selection to clipboard, exit</td>
-                </tr>
-                <tr>
-                  <td><code>q</code> / <code>Esc</code></td>
-                  <td>Quit without yanking</td>
-                </tr>
-              </tbody>
-            </table>
-            <p data-i18n="cp.body.osc">
-              <code>y</code> with no active selection yanks just the current line. The yank
-              goes through OSC 52 first (works through SSH, mosh, tmux with
-              <code>set -g set-clipboard on</code>); content larger than 75 KB falls back to
-              a temp file whose path is printed on exit.
+              The chat UI is append-only in the main buffer, so the terminal's native
+              scrollback and selection always work. If <code>mouseTracking</code> is on (the
+              default), plain drags are reported to the app — hold <code>Shift</code> while
+              dragging to fall through to the terminal's native selection. Set
+              <code>mouseTracking: false</code> in <code>~/.reasonix/config.json</code> to skip
+              mouse capture entirely. In SSH / mosh / tmux, use the same Shift+drag or the
+              multiplexer/terminal's own copy mode.
             </p>
           </section>
         </article>
