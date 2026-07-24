@@ -1835,8 +1835,9 @@ html:not([data-platform="macos"]) .shortcut kbd[data-key="mod"] {
   flex: none;
   max-width: 82%;
   min-width: 0;
-  background: var(--panel-2);
-  border-radius: 12px;
+  background: var(--card);
+  border: 1px solid var(--border-strong);
+  border-radius: 14px;
   padding: 10px 14px;
 }
 
