@@ -428,8 +428,15 @@ export async function chatCommand(opts: ChatOptions): Promise<void> {
   // prefer native drag-select copy (Shift+drag still selects with mouse
   // mode on in most terminals). exit hooks cover hard kills so the
   // sequence doesn't leak into the parent shell.
+  // App mode also enters AlternateScreen (which re-enables SGR mouse);
+  // this early enable covers the boot window before React mounts.
   if (!opts.noMouse && cfg.mouseTracking !== false) {
     enableMouseMode(historyScrollMode);
+    if (process.env.REASONIX_SCROLL_DEBUG === "1" || process.env.REASONIX_SCROLL_DEBUG === "true") {
+      process.stderr.write(
+        `[scroll-debug] mouse.enable mode=${historyScrollMode} noMouse=${!!opts.noMouse} cfg.mouseTracking=${String(cfg.mouseTracking)}\n`,
+      );
+    }
     process.once("exit", disableMouseMode);
     process.once("SIGINT", () => {
       disableMouseMode();
@@ -439,6 +446,13 @@ export async function chatCommand(opts: ChatOptions): Promise<void> {
       disableMouseMode();
       process.exit(143);
     });
+  } else if (
+    process.env.REASONIX_SCROLL_DEBUG === "1" ||
+    process.env.REASONIX_SCROLL_DEBUG === "true"
+  ) {
+    process.stderr.write(
+      `[scroll-debug] mouse.disabled noMouse=${!!opts.noMouse} cfg.mouseTracking=${cfg.mouseTracking}\n`,
+    );
   }
 
   const { waitUntilExit } = render(

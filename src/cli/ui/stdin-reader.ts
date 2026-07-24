@@ -131,8 +131,18 @@ function decodeSgrMouseBody(body: string): KeyEvent | null {
   if (!Number.isFinite(btn) || !Number.isFinite(col) || !Number.isFinite(row)) return null;
   const tail = m[4]!;
   if (tail === "m") return { input: "", mouseRelease: true, mouseRow: row, mouseCol: col };
-  if (btn === 64) return { input: "", mouseScrollUp: true, mouseRow: row, mouseCol: col };
-  if (btn === 65) return { input: "", mouseScrollDown: true, mouseRow: row, mouseCol: col };
+  if (btn === 64) {
+    if (process.env.REASONIX_SCROLL_DEBUG === "1" || process.env.REASONIX_SCROLL_DEBUG === "true") {
+      process.stderr.write(`[scroll-debug] stdin.sgr wheel=up col=${col} row=${row}\n`);
+    }
+    return { input: "", mouseScrollUp: true, mouseRow: row, mouseCol: col };
+  }
+  if (btn === 65) {
+    if (process.env.REASONIX_SCROLL_DEBUG === "1" || process.env.REASONIX_SCROLL_DEBUG === "true") {
+      process.stderr.write(`[scroll-debug] stdin.sgr wheel=down col=${col} row=${row}\n`);
+    }
+    return { input: "", mouseScrollDown: true, mouseRow: row, mouseCol: col };
+  }
   if (btn === 0) return { input: "", mouseClick: true, mouseRow: row, mouseCol: col };
   if (btn === 32) return { input: "", mouseDrag: true, mouseRow: row, mouseCol: col };
   return null;

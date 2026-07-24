@@ -1,7 +1,7 @@
 import { type WriteStream, statSync } from "node:fs";
 import { resolve } from "node:path";
 import { derivePrefix, toApprovalPrompt } from "@reasonix/core-utils";
-import { Box, Text, useStdin, useStdout } from "ink";
+import { AlternateScreen, Box, Text, useStdin, useStdout } from "ink";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   type JsonlEventSink,
@@ -191,6 +191,7 @@ import { formatMcpSlowToast } from "./mcp-toast.js";
 import { openUrl } from "./open-url.js";
 import { formatLongPaste } from "./paste-collapse.js";
 import { extractOpenQuestionsSection } from "./plan-open-questions.js";
+import { scrollDebug } from "./scroll-debug.js";
 import {
   type McpServerSummary,
   type PlanModeToggleSource,
@@ -425,6 +426,16 @@ export function App(props: AppProps): React.ReactElement {
     [props.historyScrollMode],
   );
   const wheelRows = React.useMemo(() => loadMouseWheelRows(), []);
+  React.useEffect(() => {
+    scrollDebug("app.boot", {
+      historyScrollMode,
+      wheelRows: wheelRows ?? 1,
+      configuredScrollMode: loadHistoryScrollMode(),
+      WT_SESSION: !!process.env.WT_SESSION,
+      TERM_PROGRAM: process.env.TERM_PROGRAM ?? null,
+      platform: process.platform,
+    });
+  }, [historyScrollMode, wheelRows]);
   return (
     <ThemeProvider name={themeName}>
       <AgentStoreProvider session={session} initialCards={initialCards}>
@@ -1715,24 +1726,45 @@ function AppInner({
   });
 
   useKeystroke((ev) => {
-    if (ev.paste || modalOpen) return;
+    if (ev.paste || modalOpen) {
+      if (ev.mouseScrollUp || ev.mouseScrollDown) {
+        scrollDebug("scroll.ignored", {
+          reason: ev.paste ? "paste" : "modalOpen",
+          wheel: ev.mouseScrollUp ? "up" : "down",
+        });
+      }
+      return;
+    }
     if (ev.mouseScrollUp) {
+      scrollDebug("scroll.wheel", { dir: "up" });
       chatScroll.scrollWheelUp();
       return;
     }
     if (ev.mouseScrollDown) {
+      scrollDebug("scroll.wheel", { dir: "down" });
       chatScroll.scrollWheelDown();
       return;
     }
-    if (ev.pageUp && (busy || input.length === 0)) {
+    if (ev.pageUp) {
+      if (!(busy || input.length === 0)) {
+        scrollDebug("scroll.pageUp.blocked", { busy, inputLen: input.length });
+        return;
+      }
+      scrollDebug("scroll.pageUp");
       chatScroll.scrollPageUp();
       return;
     }
-    if (ev.pageDown && (busy || input.length === 0)) {
+    if (ev.pageDown) {
+      if (!(busy || input.length === 0)) {
+        scrollDebug("scroll.pageDown.blocked", { busy, inputLen: input.length });
+        return;
+      }
+      scrollDebug("scroll.pageDown");
       chatScroll.scrollPageDown();
       return;
     }
     if (ev.end && (busy || input.length === 0)) {
+      scrollDebug("scroll.end");
       chatScroll.jumpToBottom();
     }
   }, historyScrollMode === "app");
@@ -4434,17 +4466,22 @@ function AppInner({
 
   if (!bootReady) return <BootSplash />;
 
-  return (
+  // App-managed history needs a fixed-height viewport so CardStream can
+  // compute maxScroll = contentRows - viewportRows. Without AlternateScreen
+  // the layout grows with content, outer.height ≈ totalInnerRows, maxScroll
+  // stays 0, and wheel/PageUp appear dead. Native mode stays on the main
+  // buffer (append-only StaticCardStream + terminal scrollback).
+  const shell = (
     <>
       <TickerProvider disabled={tickerSuspended}>
         <InflightProvider inflight={loop.inflight}>
-          <Box flexDirection="row" backgroundColor={SURFACE.bg}>
+          <Box flexDirection="row" backgroundColor={SURFACE.bg} flexGrow={1}>
             <Box
               flexDirection="column"
               flexGrow={planPanelOpen ? 0 : 1}
               width={planPanelOpen ? "35%" : undefined}
             >
-              <Box flexDirection="column" flexGrow={1}>
+              <Box flexDirection="column" flexGrow={1} overflow="hidden">
                 <LiveExpandContext.Provider value={liveExpand}>
                   <VerboseContext.Provider value={verboseMode}>
                     {historyScrollMode === "app" ? (
@@ -4875,4 +4912,9 @@ function AppInner({
       </TickerProvider>
     </>
   );
+
+  if (historyScrollMode === "app") {
+    return <AlternateScreen mouseTracking={true}>{shell}</AlternateScreen>;
+  }
+  return shell;
 }

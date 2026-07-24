@@ -1,5 +1,7 @@
 /** Chat-history scroll state in its own store so wheel ticks do not dirty App.tsx. */
 
+import { scrollDebug } from "../scroll-debug.js";
+
 export interface ChatScrollState {
   /** Rows of content above the visible viewport. */
   scrollRows: number;
@@ -82,6 +84,22 @@ export function createChatScrollStore(opts: CreateChatScrollStoreOptions = {}): 
     pendingDelta = 0;
     if (d === 0) return;
     const next = Math.max(0, Math.min(state.maxScroll, state.scrollRows + d));
+    if (state.maxScroll <= 0) {
+      scrollDebug("store.delta.noop", {
+        delta: d,
+        maxScroll: state.maxScroll,
+        scrollRows: state.scrollRows,
+        reason: "maxScroll=0 (content fits viewport, or outerHeight not constrained)",
+      });
+    } else {
+      scrollDebug("store.delta", {
+        delta: d,
+        from: state.scrollRows,
+        to: next,
+        maxScroll: state.maxScroll,
+        pinned: d < 0 ? false : next >= state.maxScroll ? true : state.pinned,
+      });
+    }
     set({
       scrollRows: next,
       pinned: d < 0 ? false : next >= state.maxScroll ? true : state.pinned,

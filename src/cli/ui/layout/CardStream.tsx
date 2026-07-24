@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useRef } from "react";
 import stringWidth from "string-width";
 import { t } from "../../../i18n/index.js";
 import { CardRenderer } from "../cards/CardRenderer.js";
+import { scrollDebug } from "../scroll-debug.js";
 import type { Card } from "../state/cards.js";
 import { useChatScrollActions, useChatScrollState } from "../state/chat-scroll-provider.js";
 import { useAgentState } from "../state/provider.js";
@@ -79,6 +80,23 @@ export function CardStream({
   useEffect(() => {
     setMaxScroll(maxScroll);
   }, [maxScroll, setMaxScroll]);
+
+  // Throttled viewport diagnostics — fires when geometry changes, not per wheel tick.
+  const lastGeomRef = useRef("");
+  useEffect(() => {
+    const key = `${outer.height}|${totalInnerRows}|${maxScroll}|${scrollRows}|${visible.length}`;
+    if (key === lastGeomRef.current) return;
+    lastGeomRef.current = key;
+    scrollDebug("cardstream.geometry", {
+      outerHeight: outer.height,
+      totalInnerRows,
+      maxScroll,
+      scrollRows,
+      cards: visible.length,
+      measuredCards: cardHeights.size,
+      canScroll: maxScroll > 0,
+    });
+  }, [outer.height, totalInnerRows, maxScroll, scrollRows, visible.length, cardHeights.size]);
 
   const items = useMemo(
     () => computeCardStreamItems(visible, cardHeights, scrollRows, outer.height),
