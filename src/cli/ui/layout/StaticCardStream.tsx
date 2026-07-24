@@ -5,6 +5,7 @@ import { useRenderTrace } from "../render-trace.js";
 import type { Card } from "../state/cards.js";
 import { useAgentState } from "../state/provider.js";
 import { VerboseContext } from "../state/verbose-context.js";
+import { useThemeTokens } from "../theme/context.js";
 
 interface StaticCardStreamProps {
   suppressLive?: boolean;
@@ -19,6 +20,9 @@ function StaticCardStreamInner({
   suppressLive = false,
 }: StaticCardStreamProps): React.ReactElement {
   useRenderTrace("StaticCardStream");
+  // Subscribe so theme switches re-render this stream (memo would otherwise
+  // skip when only ThemeProvider changed).
+  useThemeTokens();
   const cards = useAgentState((s) => s.cards);
   const visibleCards = useProgressiveBacklog(cards);
   const { staticItems, dynamicItems, hasUnsettledDynamic } = useMemo(

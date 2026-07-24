@@ -1,6 +1,7 @@
 import { Box, Text } from "ink";
 import React from "react";
 import type { Card } from "../state/cards.js";
+import { useThemeTokens } from "../theme/context.js";
 import { FG } from "../theme/tokens.js";
 import { CompactionCard } from "./CompactionCard.js";
 import { CtxCard } from "./CtxCard.js";
@@ -24,9 +25,13 @@ import { WarnCard } from "./WarnCard.js";
 // Memoized so the cards array re-rendering (every store update) only
 // reconciles cards whose object identity actually changed — the reducer
 // keeps prior cards reference-stable, so unchanged history skips work.
+// useThemeTokens() still re-renders every card when ThemeProvider flips
+// (memo does not block context consumers), so live /theme switches repaint
+// history text colors without a process restart.
 export const CardRenderer = React.memo(function CardRenderer({
   card,
 }: { card: Card }): React.ReactElement {
+  useThemeTokens();
   return <Box flexDirection="column">{renderCard(card)}</Box>;
 });
 

@@ -19,7 +19,11 @@ const theme: SlashHandler = (args) => {
 
   saveTheme(next);
   const active = resolveThemePreference(next, process.env.REASONIX_THEME);
-  return { info: t("app.themeSaved", { name: next, active }) };
+  return {
+    info: t("app.themeSaved", { name: next, active }),
+    // Drive ThemeProvider + history remount without requiring a process restart.
+    applyTheme: active,
+  };
 };
 
 export const handlers: Record<string, SlashHandler> = {

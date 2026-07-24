@@ -3230,6 +3230,9 @@ function AppInner({
           pushHistory(text);
           return;
         }
+        if (result.applyTheme) {
+          setThemeName(result.applyTheme);
+        }
         if (result.openArgPickerFor) {
           pushHistory(text);
           setInput(`/${result.openArgPickerFor} `);
@@ -3729,6 +3732,7 @@ function AppInner({
       generateCurrentSessionTitle,
       switchWorkspaceRoot,
       system,
+      setThemeName,
     ],
   );
 
@@ -4484,10 +4488,12 @@ function AppInner({
               <Box flexDirection="column" flexGrow={1} overflow="hidden">
                 <LiveExpandContext.Provider value={liveExpand}>
                   <VerboseContext.Provider value={verboseMode}>
+                    {/* key=themeName forces history remount so Static frozen
+                        cards and painted ANSI pick up the new palette live. */}
                     {historyScrollMode === "app" ? (
-                      <CardStream suppressLive={modalOpen} />
+                      <CardStream key={themeName} suppressLive={modalOpen} />
                     ) : (
-                      <StaticCardStream suppressLive={modalOpen} />
+                      <StaticCardStream key={themeName} suppressLive={modalOpen} />
                     )}
                   </VerboseContext.Provider>
                 </LiveExpandContext.Provider>

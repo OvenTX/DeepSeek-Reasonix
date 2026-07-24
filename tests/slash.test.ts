@@ -1635,12 +1635,14 @@ describe("handleSlash", () => {
       const r = handleSlash("theme", ["midnight"], makeLoop());
       expect(r.info).toMatch(/theme saved: midnight/);
       expect(r.openThemePicker).toBeUndefined();
+      expect(r.applyTheme).toBe("midnight");
       expect(loadTheme()).toBe("midnight");
     });
 
     it("persists auto so env can resolve the active theme", () => {
       const r = handleSlash("theme", ["auto"], makeLoop());
       expect(r.info).toMatch(/active on next launch: graphite/);
+      expect(r.applyTheme).toBe("graphite");
       expect(loadTheme()).toBe("auto");
     });
 

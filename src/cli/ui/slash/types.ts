@@ -20,6 +20,8 @@ export interface SlashResult {
   openModelPicker?: boolean;
   /** Open the ThemePicker modal — bare `/theme` opens it. */
   openThemePicker?: boolean;
+  /** Resolved theme to apply immediately (from `/theme <name>`). */
+  applyTheme?: import("../theme/tokens.js").ThemeName;
   /** Open the unified MCP hub — `/mcp` defaults to "live", `/mcp browse` to "marketplace". */
   openMcpHub?: { tab: "live" | "marketplace" };
   /** Open the arg-completer picker for this command (e.g. `/language` → language picker). */

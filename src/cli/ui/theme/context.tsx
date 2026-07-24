@@ -18,9 +18,22 @@ export function ThemeProvider({
   name?: string | null;
 }): React.ReactElement {
   const theme = THEMES[resolveThemeName(name)];
-  const restoreActiveTheme = setActiveTheme(theme);
 
-  React.useLayoutEffect(() => restoreActiveTheme, [restoreActiveTheme]);
+  // FG/TONE/SURFACE are module-level proxies that read `activeTheme`. Children
+  // (history cards, headers, composer) sample them *during render*, so the
+  // active theme must flip *before* descendants render — not in an effect
+  // (effects run after paint, leaving one frame of the old palette, and if
+  // nothing re-renders after the effect the UI stays wrong until restart).
+  //
+  // setActiveTheme bumps a version so an older restore() no-ops when a newer
+  // theme is already active; nested ThemeProviders (wizard preview) still
+  // restore their previous palette on unmount via the layout-effect cleanup.
+  setActiveTheme(theme);
+
+  React.useLayoutEffect(() => {
+    const restore = setActiveTheme(theme);
+    return restore;
+  }, [theme]);
 
   return <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>;
 }

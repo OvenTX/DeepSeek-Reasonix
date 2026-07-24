@@ -7,6 +7,7 @@ import { scrollDebug } from "../scroll-debug.js";
 import type { Card } from "../state/cards.js";
 import { useChatScrollActions, useChatScrollState } from "../state/chat-scroll-provider.js";
 import { useAgentState } from "../state/provider.js";
+import { useThemeTokens } from "../theme/context.js";
 import { FG, SURFACE, TONE } from "../theme/tokens.js";
 
 export const VISIBLE_BUFFER_ROWS = 30;
@@ -52,6 +53,7 @@ export function CardStream({
 }: {
   suppressLive?: boolean;
 }): React.ReactElement {
+  useThemeTokens();
   const cards = useAgentState((s) => s.cards);
   const scrollRows = useChatScrollState((s) => s.scrollRows);
   const cardHeights = useChatScrollState((s) => s.cardHeights);
