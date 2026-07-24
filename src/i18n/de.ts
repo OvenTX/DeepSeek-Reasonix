@@ -428,7 +428,7 @@ export const de: TranslationSchema = {
     },
     theme: {
       ...EN.slash.theme,
-      argsHint: "[auto|graphite|ember|aurora|sandstone|porcelain|linen|glacier|midnight]",
+      argsHint: "[auto|graphite|onyx|ember|aurora|sandstone|porcelain|linen|glacier|midnight]",
       description: "Terminal-Theme anzeigen oder speichern. Ohne Argument öffnet die Auswahl.",
     },
     exit: { ...EN.slash.exit, description: "TUI beenden" },
@@ -458,6 +458,7 @@ export const de: TranslationSchema = {
     themeName: {
       ...EN.wizard.themeName,
       graphite: "Graphit",
+      onyx: "Onyx",
       ember: "Glut",
       aurora: "Aurora",
       sandstone: "Sandstein",
@@ -473,6 +474,7 @@ export const de: TranslationSchema = {
     themeCaption: {
       ...EN.wizard.themeCaption,
       graphite: "Originale dunkle Palette mit neutralen Graphit-Flächen",
+      onyx: "Graphit-Farben auf reinschwarzem Input, Statuszeile und Verlauf",
       ember: "Warmes dunkles Theme mit stärkerem Reasonix-Orange",
       aurora: "Türkisgrünes dunkles Theme für weicheres Arbeiten bei wenig Licht",
       sandstone: "Originale warme helle Palette",

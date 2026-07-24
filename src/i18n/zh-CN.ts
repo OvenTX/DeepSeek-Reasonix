@@ -264,7 +264,7 @@ export const zhCN: TranslationSchema = {
     models: { description: "列出从 DeepSeek /models 获取的可用模型" },
     theme: {
       description: "显示或持久化终端主题偏好。无参数时打开选择器。",
-      argsHint: "[auto|graphite|ember|aurora|sandstone|porcelain|linen|glacier|midnight]",
+      argsHint: "[auto|graphite|onyx|ember|aurora|sandstone|porcelain|linen|glacier|midnight]",
     },
     language: {
       description: "切换运行时语言",
@@ -458,6 +458,7 @@ export const zhCN: TranslationSchema = {
     themeFooter: "[↑↓] 移动 · [Enter] 确认 · [Esc] 取消",
     themeName: {
       graphite: "石墨",
+      onyx: "黑玛瑙",
       ember: "余烬",
       aurora: "极光",
       sandstone: "砂岩",
@@ -472,6 +473,7 @@ export const zhCN: TranslationSchema = {
     },
     themeCaption: {
       graphite: "原始深色主题，搭配中性石墨面板",
+      onyx: "石墨配色 + 输入框 / 状态栏 / 历史记录纯黑背景",
       ember: "暖黑深色主题，强化 Reasonix 橙色品牌感",
       aurora: "青绿色深色主题，低光环境更柔和",
       sandstone: "原始暖浅色主题",

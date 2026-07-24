@@ -2,6 +2,7 @@ import type { Color } from "ink";
 
 export type PublicThemeName =
   | "graphite"
+  | "onyx"
   | "ember"
   | "aurora"
   | "sandstone"
@@ -181,6 +182,46 @@ const dark = defineTheme({
 });
 
 const graphite = dark;
+
+/** Graphite palette on pure-black surfaces — input, status bar (bgElev), and history (bg). */
+const onyx = defineTheme({
+  fg: {
+    strong: "#f4f7fb",
+    body: "#d8dee9",
+    sub: "#a7b1c2",
+    meta: "#9aa5b5",
+    faint: "#8791a3",
+  },
+  tone: {
+    brand: "#7dd3fc",
+    accent: "#c084fc",
+    violet: "#a78bfa",
+    ok: "#86efac",
+    warn: "#fbbf24",
+    err: "#f87171",
+    info: "#60a5fa",
+  },
+  toneActive: {
+    brand: "#bae6fd",
+    accent: "#e9d5ff",
+    violet: "#ddd6fe",
+    ok: "#bbf7d0",
+    warn: "#fde68a",
+    err: "#fecaca",
+    info: "#bfdbfe",
+  },
+  surface: {
+    bg: "#000000",
+    bgInput: "#000000",
+    bgCode: "#000000",
+    bgElev: "#000000",
+  },
+  messageBg: {
+    user: "#000000",
+    bash: "#000000",
+    selected: "#1a1a1a",
+  },
+});
 
 const light = defineTheme({
   fg: {
@@ -537,6 +578,7 @@ const highContrast = defineTheme({
 
 export const THEMES = {
   graphite,
+  onyx,
   ember,
   aurora,
   sandstone,
@@ -552,6 +594,7 @@ export const THEMES = {
 
 export const THEME_NAMES = [
   "graphite",
+  "onyx",
   "ember",
   "aurora",
   "sandstone",

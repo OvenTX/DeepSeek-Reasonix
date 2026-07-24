@@ -11,6 +11,7 @@ export function isTheme(value: unknown): value is Theme {
 
 export const THEME_STYLE = {
   GRAPHITE: "graphite",
+  ONYX: "onyx",
   EMBER: "ember",
   AURORA: "aurora",
   SANDSTONE: "sandstone",
@@ -29,6 +30,7 @@ export const DEFAULT_THEME_STYLE: Record<Theme, ThemeStyle> = {
 
 export const THEME_STYLE_THEME: Record<ThemeStyle, Theme> = {
   graphite: THEME.DARK,
+  onyx: THEME.DARK,
   ember: THEME.DARK,
   aurora: THEME.DARK,
   sandstone: THEME.LIGHT,
@@ -40,6 +42,7 @@ export const THEME_STYLE_THEME: Record<ThemeStyle, Theme> = {
 
 export const THEME_STYLES = [
   THEME_STYLE.GRAPHITE,
+  THEME_STYLE.ONYX,
   THEME_STYLE.EMBER,
   THEME_STYLE.AURORA,
   THEME_STYLE.SANDSTONE,
@@ -52,6 +55,7 @@ export const THEME_STYLES = [
 export function isThemeStyle(value: unknown): value is ThemeStyle {
   return (
     value === THEME_STYLE.GRAPHITE ||
+    value === THEME_STYLE.ONYX ||
     value === THEME_STYLE.EMBER ||
     value === THEME_STYLE.AURORA ||
     value === THEME_STYLE.SANDSTONE ||

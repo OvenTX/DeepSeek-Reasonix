@@ -274,7 +274,7 @@ export const EN: TranslationSchema = {
     models: { description: "list available models fetched from DeepSeek /models" },
     theme: {
       description: "show or persist the terminal theme preference. Bare opens picker.",
-      argsHint: "[auto|graphite|ember|aurora|sandstone|porcelain|linen|glacier|midnight]",
+      argsHint: "[auto|graphite|onyx|ember|aurora|sandstone|porcelain|linen|glacier|midnight]",
     },
     language: {
       description: "switch the runtime language",
@@ -480,6 +480,7 @@ export const EN: TranslationSchema = {
     themeFooter: "[↑↓] navigate · [Enter] confirm · [Esc] cancel",
     themeName: {
       graphite: "Graphite",
+      onyx: "Onyx",
       ember: "Ember",
       aurora: "Aurora",
       sandstone: "Sandstone",
@@ -494,6 +495,7 @@ export const EN: TranslationSchema = {
     },
     themeCaption: {
       graphite: "Original dark palette with neutral graphite panels",
+      onyx: "Graphite colors on pure-black input, status bar, and history",
       ember: "Warm dark palette with stronger Reasonix orange accents",
       aurora: "Teal-green dark palette for a softer low-light workspace",
       sandstone: "Original warm light palette",

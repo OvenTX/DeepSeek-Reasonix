@@ -29,6 +29,7 @@ describe("theme tokens", () => {
   it("lists all registered themes", () => {
     expect(listThemeNames()).toEqual([
       "graphite",
+      "onyx",
       "ember",
       "aurora",
       "sandstone",
@@ -37,6 +38,14 @@ describe("theme tokens", () => {
       "glacier",
       "midnight",
     ]);
+  });
+
+  it("onyx keeps graphite-like tones on pure-black chrome surfaces", () => {
+    const theme = THEMES.onyx;
+    expect(theme.surface.bg).toBe("#000000");
+    expect(theme.surface.bgInput).toBe("#000000");
+    expect(theme.surface.bgElev).toBe("#000000");
+    expect(theme.tone.brand).toBe(THEMES.graphite.tone.brand);
   });
 
   it("provides complete token sets for every theme", () => {

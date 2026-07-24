@@ -308,7 +308,7 @@ export const JA: TranslationSchema = {
     theme: {
       ...EN.slash.theme,
       description: "ターミナルテーマ設定を表示または保存。引数なしでピッカーを開きます。",
-      argsHint: "[auto|graphite|ember|aurora|sandstone|porcelain|linen|glacier|midnight]",
+      argsHint: "[auto|graphite|onyx|ember|aurora|sandstone|porcelain|linen|glacier|midnight]",
     },
     language: {
       ...EN.slash.language,
@@ -559,6 +559,7 @@ export const JA: TranslationSchema = {
     themeFooter: "[↑↓] 移動 · [Enter] 確定 · [Esc] キャンセル",
     themeName: {
       graphite: "グラファイト",
+      onyx: "オニキス",
       ember: "エンバー",
       aurora: "オーロラ",
       sandstone: "サンドストーン",
@@ -574,6 +575,7 @@ export const JA: TranslationSchema = {
     themeCaption: {
       ...EN.wizard.themeCaption,
       graphite: "ニュートラルなグラファイトパネルのオリジナルダークテーマ",
+      onyx: "グラファイト配色 + 入力欄・ステータス・履歴が純黒背景",
       ember: "Reasonixのオレンジを強めた暖かいダークテーマ",
       aurora: "低照度でも柔らかいティールグリーンのダークテーマ",
       sandstone: "オリジナルの暖色ライトテーマ",

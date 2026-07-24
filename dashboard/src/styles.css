@@ -86,6 +86,41 @@ body[data-drag-over="1"]::after {
   --radius-lg: 12px;
 }
 
+/* Graphite tones on pure black chrome (input / status / history). */
+[data-theme-style="onyx"] {
+  --bg: #000000;
+  --bg-2: #000000;
+  --panel: #000000;
+  --panel-2: #0a0a0a;
+  --card: #000000;
+  --card-hover: #111111;
+  --border: oklch(30% 0.008 275);
+  --border-strong: oklch(38% 0.01 275);
+  --fg: oklch(96% 0.004 280);
+  --fg-2: oklch(81% 0.005 280);
+  --muted: oklch(63% 0.006 280);
+  --muted-2: oklch(49% 0.006 280);
+
+  --accent: oklch(68% 0.16 38);
+  --accent-soft: oklch(68% 0.16 38 / 0.15);
+  --accent-strong: oklch(72% 0.18 36);
+
+  --success: oklch(70% 0.14 145);
+  --success-soft: oklch(70% 0.14 145 / 0.14);
+  --warning: oklch(78% 0.14 85);
+  --warning-soft: oklch(78% 0.14 85 / 0.16);
+  --danger: oklch(66% 0.18 25);
+  --danger-soft: oklch(66% 0.18 25 / 0.16);
+  --violet: oklch(72% 0.14 295);
+  --violet-soft: oklch(72% 0.14 295 / 0.16);
+
+  --shadow-sm: 0 1px 0 oklch(0% 0 0 / 0.35);
+  --shadow-md: 0 8px 24px -8px oklch(0% 0 0 / 0.5);
+  --shadow-lg: 0 24px 60px -16px oklch(0% 0 0 / 0.65);
+  --radius: 8px;
+  --radius-lg: 12px;
+}
+
 [data-theme-style="ember"] {
   --bg: oklch(15% 0.018 38);
   --bg-2: oklch(18% 0.018 38);
@@ -4598,6 +4633,18 @@ html:not([data-platform="macos"]) .cmdk-row .kb .shortcut kbd[data-key="mod"] {
 }
 .style-card[data-style="graphite"] .style-swatches span:nth-child(3),
 .theme-pop-item[data-style="graphite"] .style-swatches span:nth-child(3) {
+  background: oklch(68% 0.16 38);
+}
+.style-card[data-style="onyx"] .style-swatches span:nth-child(1),
+.theme-pop-item[data-style="onyx"] .style-swatches span:nth-child(1) {
+  background: #000000;
+}
+.style-card[data-style="onyx"] .style-swatches span:nth-child(2),
+.theme-pop-item[data-style="onyx"] .style-swatches span:nth-child(2) {
+  background: #111111;
+}
+.style-card[data-style="onyx"] .style-swatches span:nth-child(3),
+.theme-pop-item[data-style="onyx"] .style-swatches span:nth-child(3) {
   background: oklch(68% 0.16 38);
 }
 .style-card[data-style="ember"] .style-swatches span:nth-child(1),

@@ -183,7 +183,7 @@ export const ru: TranslationSchema = {
     models: { ...EN.slash.models, description: "список доступных моделей от DeepSeek /models" },
     theme: {
       ...EN.slash.theme,
-      argsHint: "[auto|graphite|ember|aurora|sandstone|porcelain|linen|glacier|midnight]",
+      argsHint: "[auto|graphite|onyx|ember|aurora|sandstone|porcelain|linen|glacier|midnight]",
       description: "показать или сохранить тему терминала. Без аргументов открывает выбор.",
     },
     language: {
@@ -412,6 +412,7 @@ export const ru: TranslationSchema = {
     themeName: {
       ...EN.wizard.themeName,
       graphite: "Графит",
+      onyx: "Оникс",
       ember: "Уголь",
       aurora: "Аврора",
       sandstone: "Песчаник",
@@ -427,6 +428,7 @@ export const ru: TranslationSchema = {
     themeCaption: {
       ...EN.wizard.themeCaption,
       graphite: "Исходная тёмная палитра с нейтральными графитовыми панелями",
+      onyx: "Цвета графита на чисто чёрном вводе, статусной строке и истории",
       ember: "Тёплая тёмная тема с более ярким оранжевым акцентом Reasonix",
       aurora: "Тёмная бирюзово-зелёная тема для мягкой работы при слабом освещении",
       sandstone: "Исходная тёплая светлая палитра",
