@@ -242,7 +242,7 @@ export interface ReasonixConfig {
   mouseTracking?: boolean;
   /** Rows scrolled per single SGR mouse-wheel report. Default 1 — most terminals emit 2-5 reports per physical notch, so 1 already produces 2-5 rows per notch (#1419). Bump to 3-5 only if your terminal emits one report per notch and scrolling feels slow (#1494). Clamped to [1, 10]. */
   mouseWheelRows?: number;
-  /** Chat-history scrolling: "native" leaves terminal scrollback in charge; "app" captures wheel/PgUp/PgDn/End inside the TUI; "auto" enables app mode for jump-prone hosts (VS Code terminal, MSYS/Git Bash) — Windows Terminal stays native under auto. */
+  /** Chat-history scrolling: "native" leaves terminal scrollback in charge; "app" captures wheel/PgUp/PgDn/End inside the TUI; "auto" enables app mode for terminals with known jumpy native scrollback (VS Code, Windows Terminal, MSYS/Git Bash). */
   historyScrollMode?: HistoryScrollMode;
   /** Diff display mode for edit_file / write_file / multi_edit results in CLI. */
   diffDisplay?: DiffDisplay;

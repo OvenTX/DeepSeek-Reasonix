@@ -25,9 +25,7 @@ export function resolveHistoryScrollMode({
 function isKnownJumpProneTerminal(env: NodeJS.ProcessEnv | Record<string, string | undefined>) {
   const termProgram = (env.TERM_PROGRAM ?? "").toLowerCase();
   if (termProgram === "vscode") return true;
-  // Windows Terminal (`WT_SESSION`) stays native under auto — its scrollback
-  // is stable enough, and app mode costs Shift+drag copy / native wheel.
-  // Opt into app with `historyScrollMode: "app"` if native ever jumps.
+  if (typeof env.WT_SESSION === "string" && env.WT_SESSION.length > 0) return true;
   if (typeof env.MSYSTEM === "string" && env.MSYSTEM.length > 0) return true;
   // Ghostty was bundled here in #1766, but app mode costs users their native
   // wheel scrollback, so auto keeps it native. `historyScrollMode: "app"`

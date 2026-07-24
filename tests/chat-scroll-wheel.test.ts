@@ -86,19 +86,12 @@ describe("history scroll mode resolution", () => {
     expect(resolveHistoryScrollMode({ configured: "auto", env: { MSYSTEM: "MINGW64" } })).toBe(
       "app",
     );
+    expect(resolveHistoryScrollMode({ configured: "auto", env: { WT_SESSION: "abc" } })).toBe(
+      "app",
+    );
   });
 
-  it("keeps native scrollback for Windows Terminal, ghostty, and unknown terminals in auto mode", () => {
-    expect(resolveHistoryScrollMode({ configured: "auto", env: { WT_SESSION: "abc" } })).toBe(
-      "native",
-    );
-    expect(
-      resolveHistoryScrollMode({
-        configured: "auto",
-        env: { WT_SESSION: "abc" },
-        platform: "win32",
-      }),
-    ).toBe("native");
+  it("keeps native scrollback for ghostty and unknown terminals in auto mode", () => {
     expect(resolveHistoryScrollMode({ configured: "auto", env: { TERM_PROGRAM: "ghostty" } })).toBe(
       "native",
     );
