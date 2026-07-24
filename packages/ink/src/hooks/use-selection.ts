@@ -28,6 +28,12 @@ type SelectionApi = {
     side: 'above' | 'below',
   ) => void
   setSelectionBgColor: (color: string) => void
+  /** External stdin bridge — left-button press (0-based col/row). */
+  beginTextSelection: (col: number, row: number) => void
+  /** External stdin bridge — left-button drag motion (0-based col/row). */
+  handleSelectionDrag: (col: number, row: number) => void
+  /** External stdin bridge — left-button release; copy-on-select by default. */
+  finishTextSelection: (copy?: boolean) => void
 }
 
 export function useSelection(): SelectionApi {
@@ -51,6 +57,9 @@ export function useSelection(): SelectionApi {
         moveFocus: () => {},
         captureScrolledRows: () => {},
         setSelectionBgColor: () => {},
+        beginTextSelection: () => {},
+        handleSelectionDrag: () => {},
+        finishTextSelection: () => {},
       }
     }
     return {
@@ -68,6 +77,9 @@ export function useSelection(): SelectionApi {
       captureScrolledRows: (firstRow, lastRow, side) =>
         ink.captureScrolledRows(firstRow, lastRow, side),
       setSelectionBgColor: (color: string) => ink.setSelectionBgColor(color),
+      beginTextSelection: (col, row) => ink.beginTextSelection(col, row),
+      handleSelectionDrag: (col, row) => ink.handleSelectionDrag(col, row),
+      finishTextSelection: (copy) => ink.finishTextSelection(copy),
     }
   }, [ink])
 }

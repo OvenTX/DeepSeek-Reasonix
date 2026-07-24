@@ -69,15 +69,15 @@ describe("mouse-mode enable/disable", () => {
   it("REASONIX_MOUSE_MODE=sgr forces ?1000h + ?1006h capture even off Windows", () => {
     process.env.REASONIX_MOUSE_MODE = "sgr";
     enableMouseMode();
-    expect(writes.join("")).toBe("\u001b[?1000h\u001b[?1006h");
+    expect(writes.join("")).toBe("\u001b[?1000h\u001b[?1002h\u001b[?1006h");
     writes.length = 0;
     disableMouseMode();
-    expect(writes.join("")).toBe("\u001b[?1006l\u001b[?1000l");
+    expect(writes.join("")).toBe("\u001b[?1006l\u001b[?1002l\u001b[?1000l");
   });
 
   it("app history scroll mode enables SGR mouse tracking by default", () => {
     enableMouseMode("app");
-    expect(writes.join("")).toBe("\u001b[?1000h\u001b[?1006h");
+    expect(writes.join("")).toBe("\u001b[?1000h\u001b[?1002h\u001b[?1006h");
   });
 
   it("REASONIX_MOUSE_MODE=alternate-scroll forces ?1007h even on Windows", () => {
@@ -124,7 +124,7 @@ describe("mouse-mode enable/disable", () => {
     writes.length = 0;
     process.env.REASONIX_MOUSE_MODE = "alternate-scroll";
     disableMouseMode();
-    expect(writes.join("")).toBe("\u001b[?1006l\u001b[?1000l");
+    expect(writes.join("")).toBe("\u001b[?1006l\u001b[?1002l\u001b[?1000l");
   });
 
   it("enable when stdout isn't a TTY is a no-op", () => {

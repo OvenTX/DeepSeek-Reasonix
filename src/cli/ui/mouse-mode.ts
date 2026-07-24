@@ -22,7 +22,12 @@ const RESET_ALL =
 
 const SEQUENCES: Record<Mode, { enable: string; disable: string }> = {
   "alternate-scroll": { enable: "\u001b[?1007h", disable: "\u001b[?1007l" },
-  sgr: { enable: "\u001b[?1000h\u001b[?1006h", disable: "\u001b[?1006l\u001b[?1000l" },
+  // 1002 (button-event) is required for left-drag reports (btn=32). Without it
+  // we only get press/release and cannot implement drag-select copy.
+  sgr: {
+    enable: "\u001b[?1000h\u001b[?1002h\u001b[?1006h",
+    disable: "\u001b[?1006l\u001b[?1002l\u001b[?1000l",
+  },
   off: { enable: RESET_ALL, disable: "" },
   "apple-terminal-off": { enable: "", disable: "" },
 };

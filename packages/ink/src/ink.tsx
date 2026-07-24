@@ -34,7 +34,7 @@ import { applyPositionedHighlight, type MatchPosition, scanPositions } from './r
 import createRenderer, { type Renderer } from './renderer.js';
 import { CellWidth, CharPool, cellAt, createScreen, HyperlinkPool, isEmptyCellAt, migrateScreenPools, StylePool } from './screen.js';
 import { applySearchHighlight } from './searchHighlight.js';
-import { applySelectionOverlay, captureScrolledRows, clearSelection, createSelectionState, extendSelection, type FocusMove, findPlainTextUrlAt, getSelectedText, hasSelection, moveFocus, type SelectionState, selectLineAt, selectWordAt, shiftAnchor, shiftSelection, shiftSelectionForFollow, startSelection, updateSelection } from './selection.js';
+import { applySelectionOverlay, captureScrolledRows, clearSelection, createSelectionState, extendSelection, finishSelection, type FocusMove, findPlainTextUrlAt, getSelectedText, hasSelection, moveFocus, type SelectionState, selectLineAt, selectWordAt, shiftAnchor, shiftSelection, shiftSelectionForFollow, startSelection, updateSelection } from './selection.js';
 import { SYNC_OUTPUT_SUPPORTED, supportsExtendedKeys, type Terminal, writeDiffToTerminal } from './terminal.js';
 import { CURSOR_HOME, cursorMove, cursorPosition, DISABLE_KITTY_KEYBOARD, DISABLE_MODIFY_OTHER_KEYS, ENABLE_KITTY_KEYBOARD, ENABLE_MODIFY_OTHER_KEYS, ERASE_SCREEN } from './termio/csi.js';
 import { DBP, DFE, DISABLE_MOUSE_TRACKING, ENABLE_MOUSE_TRACKING, ENTER_ALT_SCREEN, EXIT_ALT_SCREEN, SHOW_CURSOR } from './termio/dec.js';
@@ -1187,6 +1187,31 @@ export default class Ink {
       extendSelection(sel, this.frontFrame.screen, col, row);
     } else {
       updateSelection(sel, col, row);
+    }
+    this.notifySelectionChange();
+  }
+
+  /**
+   * External (non-Ink stdin) bridge for left-button press.
+   * Used when a host app owns stdin parsing (Reasonix KeystrokeProvider)
+   * and needs to drive alt-screen text selection itself.
+   */
+  beginTextSelection(col: number, row: number): void {
+    if (!this.altScreenActive) return;
+    startSelection(this.selection, col, row);
+    this.notifySelectionChange();
+  }
+
+  /**
+   * External bridge for left-button release.
+   * Finishes the drag and, when `copy` is true (default), OSC-52 copies
+   * the selected text without clearing the highlight — copy-on-select.
+   */
+  finishTextSelection(copy = true): void {
+    if (!this.altScreenActive) return;
+    finishSelection(this.selection);
+    if (copy && hasSelection(this.selection)) {
+      this.copySelectionNoClear();
     }
     this.notifySelectionChange();
   }

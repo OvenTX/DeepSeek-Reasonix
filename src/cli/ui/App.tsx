@@ -1,7 +1,7 @@
 import { type WriteStream, statSync } from "node:fs";
 import { resolve } from "node:path";
 import { derivePrefix, toApprovalPrompt } from "@reasonix/core-utils";
-import { AlternateScreen, Box, Text, useStdin, useStdout } from "ink";
+import { AlternateScreen, Box, Text, useSelection, useStdin, useStdout } from "ink";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   type JsonlEventSink,
@@ -847,6 +847,11 @@ function AppInner({
   } = useInputRecall(setInput);
   const chatScroll = useChatScrollActions();
   const { setRawMode, isRawModeSupported } = useStdin();
+  // Ink owns the alt-screen cell buffer + selection overlay; Reasonix owns
+  // stdin (KeystrokeProvider). Bridge left-drag mouse events into Ink so
+  // app-mode can still drag-select + OSC-52 copy without native terminal
+  // selection (which mouse capture disables).
+  const selection = useSelection();
   // Ctrl+X —hand the composer buffer to $EDITOR. Raw-mode flip lets the
   // editor own line-buffered input; result replaces the composer value.
   const handleOpenExternalEditor = useCallback(async () => {
@@ -1724,6 +1729,22 @@ function AppInner({
       return next;
     });
   });
+
+  // Left-drag select + copy-on-select (app / alt-screen mouse capture only).
+  useKeystroke((ev) => {
+    if (historyScrollMode !== "app") return;
+    if (ev.mouseClick && ev.mouseRow != null && ev.mouseCol != null) {
+      selection.beginTextSelection(ev.mouseCol - 1, ev.mouseRow - 1);
+      return;
+    }
+    if (ev.mouseDrag && ev.mouseRow != null && ev.mouseCol != null) {
+      selection.handleSelectionDrag(ev.mouseCol - 1, ev.mouseRow - 1);
+      return;
+    }
+    if (ev.mouseRelease) {
+      selection.finishTextSelection(true);
+    }
+  }, historyScrollMode === "app");
 
   useKeystroke((ev) => {
     if (ev.paste || modalOpen) {

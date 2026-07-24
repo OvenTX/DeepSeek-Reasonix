@@ -110,7 +110,7 @@ export const zhCN: TranslationSchema = {
       sections: [
         {
           rows: [
-            { key: "拖动", text: "直接选中文本 — 终端原生，不需要按 Shift" },
+            { key: "拖动", text: "直接选中文本 — 终端原生；app/alt-screen 模式下松手自动复制" },
             {
               key: "右键",
               text: "终端原生菜单（Windows Terminal 等的复制 / 粘贴）",

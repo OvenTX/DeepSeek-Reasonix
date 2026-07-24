@@ -114,7 +114,10 @@ export const EN: TranslationSchema = {
       sections: [
         {
           rows: [
-            { key: "drag", text: "select text — terminal-native, no modifier needed" },
+            {
+              key: "drag",
+              text: "select text — native in terminal scrollback; auto-copy in app/alt-screen mode",
+            },
             {
               key: "right-click",
               text: "your terminal's native menu (paste / copy on Windows Terminal etc.)",
@@ -162,14 +165,17 @@ export const EN: TranslationSchema = {
           title: "mouse",
           rows: [
             { key: "wheel", text: "scrolls chat history (works on web/cloud/SSH terminals too)" },
-            { key: "drag", text: "selects text natively — direct copy works, no modifier" },
+            { key: "drag", text: "selects text — native or app-mode auto-copy, no modifier" },
             { key: "right-click", text: "terminal-native (paste menu on Windows Terminal etc.)" },
           ],
         },
         {
           title: "copy / paste",
           rows: [
-            { key: "select text", text: "drag to select — terminal-native (no modifier needed)" },
+            {
+              key: "select text",
+              text: "drag to select — auto-copies in app mode; terminal-native otherwise",
+            },
             {
               key: "copy",
               text: "Ctrl+Shift+C (Win/Linux) · Cmd+C (macOS) — or auto-copy-on-select if your terminal does it",
