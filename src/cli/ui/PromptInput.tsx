@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { Box, type Color, Text, useStdout } from "ink";
+import { Box, type Color, Text, useDeclaredCursor, useStdout } from "ink";
 import React, { useEffect, useRef, useState } from "react";
 import { t } from "../../i18n/index.js";
 import { useKeystroke } from "./keystroke-context.js";
@@ -59,8 +59,6 @@ export interface PromptInputProps {
   /** Ctrl+X — parent spawns $EDITOR with the current buffer and re-injects on exit. */
   onOpenExternalEditor?: () => void;
   onCursorChange?: (cursor: number) => void;
-  /** Rows the parent renders below this box — drives IME cursor sync so fcitx5/ibus/Win-IME candidate popups land next to the visual ▌. */
-  rowsAfter?: number;
   /** Current mode for bottom status display. */
   mode?: string;
   /** Current model for bottom status display. */
@@ -82,7 +80,6 @@ export function PromptInput({
   onHistoryNext,
   onOpenExternalEditor,
   onCursorChange,
-  rowsAfter = 0,
   mode,
   model,
   isHistoryMode,
@@ -224,8 +221,9 @@ export function PromptInput({
   const renderItems = collapseLinesForDisplay(lines, cursorLine);
   const showHugeBufferHints = lines.length > 20;
 
-  // Ink owns cursor positioning end-to-end; out-of-band CUP writes desync
-  // its frame buffer and leave residual glyphs on next diff.
+  // Native terminal cursor is parked via useDeclaredCursor on the active
+  // PromptLine / PasteChipRow (see below). Do not emit raw CUP escapes
+  // here — they desync Ink's frame buffer and leave residual glyphs.
 
   const borderLabel = (() => {
     const parts: string[] = [];
@@ -461,9 +459,15 @@ function PasteChipRow({
   const lead = isFirst ? promptPrefix : continuationIndent;
   const leadColor = isFirst ? accentColor : FG.faint;
   const labelText = formatChipLabel(entry, pasteId, visibleCells - 6);
+  // Active chip shows "▸ " after the lead; park IME there.
+  const setCursorNode = useDeclaredCursor({
+    line: 0,
+    column: lead.length + (active ? 2 : 0),
+    active,
+  });
   if (active) {
     return (
-      <Box>
+      <Box ref={setCursorNode}>
         <Text bold color={leadColor}>
           {lead}
         </Text>
@@ -477,7 +481,7 @@ function PasteChipRow({
     );
   }
   return (
-    <Box>
+    <Box ref={setCursorNode}>
       <Text bold color={leadColor}>
         {lead}
       </Text>
@@ -539,6 +543,19 @@ interface PromptLineProps {
   steerBusy?: boolean;
 }
 
+/** Cell offset of the visual caret within a PromptLine Box (for IME / a11y). */
+export function imeCursorColumn(opts: {
+  isFirst: boolean;
+  promptPrefix: string;
+  continuationIndent: string;
+  hiddenLeft: boolean;
+  /** Cells into the viewport content; 0 for empty / placeholder caret. */
+  cursorCell: number;
+}): number {
+  const lead = opts.isFirst ? opts.promptPrefix : opts.continuationIndent;
+  return lead.length + (opts.hiddenLeft ? 1 : 0) + Math.max(0, opts.cursorCell);
+}
+
 function PromptLine({
   line,
   isFirst,
@@ -556,9 +573,28 @@ function PromptLine({
   steerBusy,
 }: PromptLineProps) {
   const promptActive = !disabled || !!steerBusy;
+  // Hooks must run unconditionally — build viewport even for placeholder
+  // (ignored when showPlaceholder) so column math stays in one place.
+  const viewport = buildViewport(line, isCursorLine ? cursorCol : null, visibleCells, pastes);
+  const column = imeCursorColumn({
+    isFirst,
+    promptPrefix,
+    continuationIndent,
+    hiddenLeft: showPlaceholder ? false : viewport.hiddenLeft,
+    cursorCell: showPlaceholder ? 0 : (viewport.cursorCell ?? 0),
+  });
+  // Park the terminal's physical cursor on the ▌ so fcitx5/ibus/Win-IME
+  // candidate windows open next to the input caret, not on the status row
+  // (alt-screen's default bottom-row park).
+  const setCursorNode = useDeclaredCursor({
+    line: 0,
+    column,
+    active: isCursorLine && promptActive,
+  });
+
   if (showPlaceholder) {
     return (
-      <Box>
+      <Box ref={setCursorNode}>
         <Text bold color={accentColor}>
           {promptPrefix}
         </Text>
@@ -568,10 +604,8 @@ function PromptLine({
     );
   }
 
-  const viewport = buildViewport(line, isCursorLine ? cursorCol : null, visibleCells, pastes);
-
   return (
-    <Box>
+    <Box ref={setCursorNode}>
       {isFirst ? (
         <Text bold color={accentColor}>
           {promptPrefix}

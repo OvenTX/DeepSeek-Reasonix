@@ -151,7 +151,6 @@ export const ComposerArea: React.FC<ComposerAreaProps> = React.memo(
           onHistoryNext={onHistoryNext}
           onOpenExternalEditor={onOpenExternalEditor}
           onCursorChange={onCursorChange}
-          rowsAfter={2 + (activeLoop ? 1 : 0)}
           mode={mode}
           model={model}
           isHistoryMode={isHistoryMode}
