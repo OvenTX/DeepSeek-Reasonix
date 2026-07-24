@@ -1191,22 +1191,14 @@ export default class Ink {
     this.notifySelectionChange();
   }
 
-  /**
-   * External (non-Ink stdin) bridge for left-button press.
-   * Used when a host app owns stdin parsing (Reasonix KeystrokeProvider)
-   * and needs to drive alt-screen text selection itself.
-   */
+  /** External stdin bridge for left-button press (Reasonix KeystrokeProvider). */
   beginTextSelection(col: number, row: number): void {
     if (!this.altScreenActive) return;
     startSelection(this.selection, col, row);
     this.notifySelectionChange();
   }
 
-  /**
-   * External bridge for left-button release.
-   * Finishes the drag and, when `copy` is true (default), OSC-52 copies
-   * the selected text without clearing the highlight — copy-on-select.
-   */
+  /** External bridge for left-button release; OSC-52 copy-on-select by default. */
   finishTextSelection(copy = true): void {
     if (!this.altScreenActive) return;
     finishSelection(this.selection);

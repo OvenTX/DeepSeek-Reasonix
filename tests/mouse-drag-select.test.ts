@@ -1,11 +1,8 @@
 import { describe, expect, it } from "vitest";
 import type { KeyEvent } from "../src/cli/ui/stdin-reader.js";
 
-/**
- * Minimal pure bridge used by App.tsx left-drag copy-on-select.
- * Kept free of React/Ink so we can unit-test the event routing without
- * spinning up a full TUI.
- */
+// Minimal pure bridge used by App.tsx left-drag copy-on-select.
+// Kept free of React/Ink so unit tests do not spin up a full TUI.
 function routeMouseSelection(
   ev: KeyEvent,
   selection: {
