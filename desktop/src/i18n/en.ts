@@ -131,7 +131,7 @@ export const en = {
     themeStyleGraphite: "Graphite",
     themeStyleGraphiteDesc: "Original dark palette with neutral graphite panels.",
     themeStyleOnyx: "Onyx",
-    themeStyleOnyxDesc: "Graphite colors on pure-black input, status bar, and history.",
+    themeStyleOnyxDesc: "Graphite colors with transparent input, status bar, and history.",
     themeStyleEmber: "Ember",
     themeStyleEmberDesc: "Warm dark palette with a stronger Reasonix orange accent.",
     themeStyleAurora: "Aurora",

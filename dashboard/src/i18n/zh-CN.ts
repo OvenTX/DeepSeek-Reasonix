@@ -313,7 +313,7 @@ export const zhCN = {
     themeStyleGraphite: "石墨",
     themeStyleGraphiteDesc: "冷色深色调，适合长时间使用。",
     themeStyleOnyx: "黑玛瑙",
-    themeStyleOnyxDesc: "石墨配色，输入框 / 状态栏 / 历史记录纯黑背景。",
+    themeStyleOnyxDesc: "石墨配色，输入框 / 状态栏 / 历史记录透明背景。",
     themeStyleEmber: "余烬",
     themeStyleEmberDesc: "暖黑深色调，强化 Reasonix 橙色品牌感。",
     themeStyleAurora: "极光",

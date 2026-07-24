@@ -331,7 +331,7 @@ export const de: typeof en = {
     themeStyleGraphite: "Graphit",
     themeStyleGraphiteDesc: "Kühle dunkle Neutrale — am besten für lange Sitzungen.",
     themeStyleOnyx: "Onyx",
-    themeStyleOnyxDesc: "Graphit-Farben auf reinschwarzem Input, Statuszeile und Verlauf.",
+    themeStyleOnyxDesc: "Graphit-Farben mit transparentem Input, Statuszeile und Verlauf.",
     themeStyleEmber: "Ember",
     themeStyleEmberDesc: "Warmes Dunkel mit stärkerem Reasonix-Orange.",
     themeStyleAurora: "Aurora",

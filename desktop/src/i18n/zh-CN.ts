@@ -131,7 +131,7 @@ export const zhCN: typeof en = {
     themeStyleGraphite: "Graphite",
     themeStyleGraphiteDesc: "原有深色风格，中性石墨面板。",
     themeStyleOnyx: "Onyx",
-    themeStyleOnyxDesc: "石墨配色，输入框 / 状态栏 / 历史记录纯黑背景。",
+    themeStyleOnyxDesc: "石墨配色，输入框 / 状态栏 / 历史记录透明背景。",
     themeStyleEmber: "Ember",
     themeStyleEmberDesc: "暖黑深色风格，强化 Reasonix 橙色品牌感。",
     themeStyleAurora: "Aurora",

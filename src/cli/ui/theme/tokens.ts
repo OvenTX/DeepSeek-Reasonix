@@ -34,18 +34,19 @@ export interface ThemeTokens {
   };
   toneActive: ThemeTokens["tone"];
   surface: {
-    bg: Color;
-    bgInput: Color;
-    bgCode: Color;
-    bgElev: Color;
+    /** `undefined` = no paint (terminal/window default shows through). */
+    bg: Color | undefined;
+    bgInput: Color | undefined;
+    bgCode: Color | undefined;
+    bgElev: Color | undefined;
   };
   messageBg: {
-    user: Color;
-    bash: Color;
-    selected: Color;
+    user: Color | undefined;
+    bash: Color | undefined;
+    selected: Color | undefined;
   };
   pill: {
-    bg: Color;
+    bg: Color | undefined;
     section: Record<
       | "reason"
       | "output"
@@ -57,10 +58,10 @@ export interface ThemeTokens {
       | "plan"
       | "user"
       | "empty",
-      { bg: Color; fg: Color }
+      { bg: Color | undefined; fg: Color }
     >;
-    path: { bg: Color; fg: Color };
-    model: Record<"flash" | "pro" | "r1" | "unknown", { bg: Color; fg: Color }>;
+    path: { bg: Color | undefined; fg: Color };
+    model: Record<"flash" | "pro" | "r1" | "unknown", { bg: Color | undefined; fg: Color }>;
   };
   card: Record<
     | "user"
@@ -183,7 +184,8 @@ const dark = defineTheme({
 
 const graphite = dark;
 
-/** Graphite palette on pure-black surfaces — input, status bar (bgElev), and history (bg). */
+/** Graphite palette with transparent chrome — no fill on history/input/status
+ *  so the terminal (or desktop window) background shows through. */
 const onyx = defineTheme({
   fg: {
     strong: "#f4f7fb",
@@ -211,14 +213,14 @@ const onyx = defineTheme({
     info: "#bfdbfe",
   },
   surface: {
-    bg: "#000000",
-    bgInput: "#000000",
-    bgCode: "#000000",
-    bgElev: "#000000",
+    bg: undefined,
+    bgInput: undefined,
+    bgCode: undefined,
+    bgElev: undefined,
   },
   messageBg: {
-    user: "#000000",
-    bash: "#000000",
+    user: undefined,
+    bash: undefined,
     selected: "#1a1a1a",
   },
 });

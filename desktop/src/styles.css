@@ -153,14 +153,14 @@ body[data-drag-over="1"]::after {
   --radius-lg: 12px;
 }
 
-/* Graphite tones on pure black chrome (input / status / history). */
+/* Graphite tones with transparent chrome (shows window / page behind). */
 [data-theme-style="onyx"] {
-  --bg: #000000;
-  --bg-2: #000000;
-  --panel: #000000;
-  --panel-2: #0a0a0a;
-  --card: #000000;
-  --card-hover: #111111;
+  --bg: transparent;
+  --bg-2: transparent;
+  --panel: transparent;
+  --panel-2: oklch(100% 0 0 / 0.04);
+  --card: transparent;
+  --card-hover: oklch(100% 0 0 / 0.06);
   --border: oklch(30% 0.008 275);
   --border-strong: oklch(38% 0.01 275);
   --fg: oklch(96% 0.004 280);
@@ -181,9 +181,9 @@ body[data-drag-over="1"]::after {
   --violet: oklch(72% 0.14 295);
   --violet-soft: oklch(72% 0.14 295 / 0.16);
 
-  --shadow-sm: 0 1px 0 oklch(0% 0 0 / 0.35);
-  --shadow-md: 0 8px 24px -8px oklch(0% 0 0 / 0.5);
-  --shadow-lg: 0 24px 60px -16px oklch(0% 0 0 / 0.65);
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
   --radius: 8px;
   --radius-lg: 12px;
 }
@@ -5393,11 +5393,12 @@ html:not([data-platform="macos"]) .cmdk-row .kb .shortcut kbd[data-key="mod"] {
 }
 .style-card[data-style="onyx"] .style-swatches span:nth-child(1),
 .theme-pop-item[data-style="onyx"] .style-swatches span:nth-child(1) {
-  background: #000000;
+  background: transparent;
+  box-shadow: inset 0 0 0 1px oklch(50% 0.01 280);
 }
 .style-card[data-style="onyx"] .style-swatches span:nth-child(2),
 .theme-pop-item[data-style="onyx"] .style-swatches span:nth-child(2) {
-  background: #111111;
+  background: oklch(100% 0 0 / 0.06);
 }
 .style-card[data-style="onyx"] .style-swatches span:nth-child(3),
 .theme-pop-item[data-style="onyx"] .style-swatches span:nth-child(3) {

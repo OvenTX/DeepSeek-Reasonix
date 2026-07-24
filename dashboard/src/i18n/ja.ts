@@ -334,7 +334,7 @@ export const ja: typeof en = {
     themeStyleGraphite: "グラファイト",
     themeStyleGraphiteDesc: "クールなダークニュートラル — 長時間のセッションに最適。",
     themeStyleOnyx: "オニキス",
-    themeStyleOnyxDesc: "グラファイト配色 + 入力欄・ステータス・履歴が純黒背景。",
+    themeStyleOnyxDesc: "グラファイト配色 + 入力欄・ステータス・履歴が透明背景。",
     themeStyleEmber: "エンバー",
     themeStyleEmberDesc: "Reasonixのオレンジを強めた暖かいダーク。",
     themeStyleAurora: "オーロラ",

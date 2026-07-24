@@ -473,7 +473,7 @@ export const zhCN: TranslationSchema = {
     },
     themeCaption: {
       graphite: "原始深色主题，搭配中性石墨面板",
-      onyx: "石墨配色 + 输入框 / 状态栏 / 历史记录纯黑背景",
+      onyx: "石墨配色 + 输入框 / 状态栏 / 历史记录透明背景",
       ember: "暖黑深色主题，强化 Reasonix 橙色品牌感",
       aurora: "青绿色深色主题，低光环境更柔和",
       sandstone: "原始暖浅色主题",

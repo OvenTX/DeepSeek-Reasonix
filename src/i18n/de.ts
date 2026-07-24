@@ -474,7 +474,7 @@ export const de: TranslationSchema = {
     themeCaption: {
       ...EN.wizard.themeCaption,
       graphite: "Originale dunkle Palette mit neutralen Graphit-Flächen",
-      onyx: "Graphit-Farben auf reinschwarzem Input, Statuszeile und Verlauf",
+      onyx: "Graphit-Farben mit transparentem Input, Statuszeile und Verlauf",
       ember: "Warmes dunkles Theme mit stärkerem Reasonix-Orange",
       aurora: "Türkisgrünes dunkles Theme für weicheres Arbeiten bei wenig Licht",
       sandstone: "Originale warme helle Palette",

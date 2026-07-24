@@ -7,7 +7,8 @@ import { PILL } from "../theme/tokens.js";
 
 export interface PillProps {
   label: string;
-  bg: Color;
+  /** Omit / undefined = no background fill (transparent themes). */
+  bg: Color | undefined;
   fg: Color;
   bold?: boolean;
 }

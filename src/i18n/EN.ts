@@ -495,7 +495,7 @@ export const EN: TranslationSchema = {
     },
     themeCaption: {
       graphite: "Original dark palette with neutral graphite panels",
-      onyx: "Graphite colors on pure-black input, status bar, and history",
+      onyx: "Graphite colors with transparent input, status bar, and history",
       ember: "Warm dark palette with stronger Reasonix orange accents",
       aurora: "Teal-green dark palette for a softer low-light workspace",
       sandstone: "Original warm light palette",

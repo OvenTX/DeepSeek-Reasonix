@@ -575,7 +575,7 @@ export const JA: TranslationSchema = {
     themeCaption: {
       ...EN.wizard.themeCaption,
       graphite: "ニュートラルなグラファイトパネルのオリジナルダークテーマ",
-      onyx: "グラファイト配色 + 入力欄・ステータス・履歴が純黒背景",
+      onyx: "グラファイト配色 + 入力欄・ステータス・履歴が透明背景",
       ember: "Reasonixのオレンジを強めた暖かいダークテーマ",
       aurora: "低照度でも柔らかいティールグリーンのダークテーマ",
       sandstone: "オリジナルの暖色ライトテーマ",

@@ -40,11 +40,12 @@ describe("theme tokens", () => {
     ]);
   });
 
-  it("onyx keeps graphite-like tones on pure-black chrome surfaces", () => {
+  it("onyx keeps graphite-like tones with transparent chrome surfaces", () => {
     const theme = THEMES.onyx;
-    expect(theme.surface.bg).toBe("#000000");
-    expect(theme.surface.bgInput).toBe("#000000");
-    expect(theme.surface.bgElev).toBe("#000000");
+    expect(theme.surface.bg).toBeUndefined();
+    expect(theme.surface.bgInput).toBeUndefined();
+    expect(theme.surface.bgElev).toBeUndefined();
+    expect(theme.messageBg.user).toBeUndefined();
     expect(theme.tone.brand).toBe(THEMES.graphite.tone.brand);
   });
 
@@ -54,7 +55,9 @@ describe("theme tokens", () => {
       expect(theme.fg.body).toBeTruthy();
       expect(theme.tone.brand).toBeTruthy();
       expect(theme.toneActive.brand).toBeTruthy();
-      expect(theme.surface.bg).toBeTruthy();
+      if (name !== "onyx") {
+        expect(theme.surface.bg).toBeTruthy();
+      }
       expect(theme.card.error.color).toBe(theme.tone.err);
       expect(theme.card.streaming.color).toBe(theme.tone.brand);
     }

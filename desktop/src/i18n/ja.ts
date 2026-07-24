@@ -137,7 +137,7 @@ export const ja: typeof en = {
     themeStyleGraphite: "グラファイト",
     themeStyleGraphiteDesc: "ニュートラルなグラファイトパネルのオリジナルダークパレット。",
     themeStyleOnyx: "オニキス",
-    themeStyleOnyxDesc: "グラファイト配色 + 入力欄・ステータス・履歴が純黒背景。",
+    themeStyleOnyxDesc: "グラファイト配色 + 入力欄・ステータス・履歴が透明背景。",
     themeStyleEmber: "エンバー",
     themeStyleEmberDesc: "Reasonixのオレンジを強めた暖かいダークパレット。",
     themeStyleAurora: "オーロラ",

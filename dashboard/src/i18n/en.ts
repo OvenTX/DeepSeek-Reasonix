@@ -313,7 +313,7 @@ export const en = {
     themeStyleGraphite: "Graphite",
     themeStyleGraphiteDesc: "Cool dark neutrals — best for long sessions.",
     themeStyleOnyx: "Onyx",
-    themeStyleOnyxDesc: "Graphite colors on pure-black chrome surfaces.",
+    themeStyleOnyxDesc: "Graphite colors with transparent chrome surfaces.",
     themeStyleEmber: "Ember",
     themeStyleEmberDesc: "Warm dark with a stronger Reasonix orange accent.",
     themeStyleAurora: "Aurora",
