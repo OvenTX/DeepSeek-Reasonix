@@ -27,8 +27,11 @@ import {
 import { VERSION } from "../src/version.js";
 
 function makeLoop() {
+  // Pin official DeepSeek host so /effort max remains available even when the
+  // developer machine exports DEEPSEEK_BASE_URL to a local proxy (e.g. :8317).
   const client = new DeepSeekClient({
     apiKey: "sk-test",
+    baseUrl: "https://api.deepseek.com",
     fetch: vi.fn() as unknown as typeof fetch,
   });
   return new CacheFirstLoop({

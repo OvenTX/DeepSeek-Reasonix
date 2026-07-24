@@ -59,8 +59,12 @@ describe("doctorCommand --json (integration)", () => {
     tmpCwd = mkdtempSync(join(tmpdir(), "reasonix-doctor-cwd-"));
     vi.stubEnv("HOME", tmpHome);
     vi.stubEnv("USERPROFILE", tmpHome);
-    // Ensure no API key so checkApiReach skips the network call.
+    // Isolate from developer machine env — loadEndpoint prefers
+    // DEEPSEEK_BASE_URL and then only looks at DEEPSEEK_API_KEY, so a
+    // residual local proxy URL would ignore the temp config key.
     vi.stubEnv("DEEPSEEK_API_KEY", "");
+    vi.stubEnv("DEEPSEEK_BASE_URL", "");
+    vi.stubEnv("DEEPSEEK_API_BASE_URL", "");
     process.chdir(tmpCwd);
     logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     exitSpy = vi.spyOn(process, "exit").mockImplementation(() => undefined as never);
