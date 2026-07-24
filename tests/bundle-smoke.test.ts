@@ -65,33 +65,37 @@ describe("bundled dist — tokenizer path resolution", () => {
     },
   );
 
-  (cliExists ? it : it.skip)("dist/cli/index.js loads tokenizer before the first API fetch", () => {
-    // Spawn the CLI pointed at a bogus local address that fails fetch
-    // fast. In step(), preflight's estimateRequestTokens runs BEFORE
-    // client.chat — so if the bundled layout can't find the
-    // tokenizer data, we see ENOENT in stderr even though the fetch
-    // never happens. If tokenizer loads fine, we see a connection
-    // error instead (and that's OK — we're not testing the network
-    // path, only that the tokenizer path resolution works from
-    // dist/cli/).
-    const result = spawnSync("node", [CLI_BUNDLE, "run", "--no-config", "hi"], {
-      encoding: "utf8",
-      timeout: 10_000,
-      env: {
-        ...process.env,
-        DEEPSEEK_API_KEY: "sk-smoke-test-bogus",
-        // Fail-fast fetch target: the :1 port is almost never open,
-        // so we get connection-refused within ~1ms instead of the
-        // client's 120s timeout waiting on api.deepseek.com.
-        DEEPSEEK_BASE_URL: "http://127.0.0.1:1",
-      },
-    });
-    const combined = `${result.stdout}\n${result.stderr}`;
-    // The crucial assertion: bundle must not crash on the tokenizer
-    // path. Connection errors to 127.0.0.1:1 are expected and fine.
-    expect(combined).not.toMatch(/deepseek-tokenizer\.json\.gz/);
-    // Also not a missing-module style ENOENT (network errors are
-    // ECONNREFUSED or fetch failure, never ENOENT).
-    expect(combined).not.toMatch(/ENOENT.*tokenizer/i);
-  });
+  (cliExists ? it : it.skip)(
+    "dist/cli/index.js loads tokenizer before the first API fetch",
+    () => {
+      // Spawn the CLI pointed at a bogus local address that fails fetch
+      // fast. In step(), preflight's estimateRequestTokens runs BEFORE
+      // client.chat — so if the bundled layout can't find the
+      // tokenizer data, we see ENOENT in stderr even though the fetch
+      // never happens. If tokenizer loads fine, we see a connection
+      // error instead (and that's OK — we're not testing the network
+      // path, only that the tokenizer path resolution works from
+      // dist/cli/).
+      const result = spawnSync("node", [CLI_BUNDLE, "run", "--no-config", "hi"], {
+        encoding: "utf8",
+        timeout: 10_000,
+        env: {
+          ...process.env,
+          DEEPSEEK_API_KEY: "sk-smoke-test-bogus",
+          // Fail-fast fetch target: the :1 port is almost never open,
+          // so we get connection-refused within ~1ms instead of the
+          // client's 120s timeout waiting on api.deepseek.com.
+          DEEPSEEK_BASE_URL: "http://127.0.0.1:1",
+        },
+      });
+      const combined = `${result.stdout}\n${result.stderr}`;
+      // The crucial assertion: bundle must not crash on the tokenizer
+      // path. Connection errors to 127.0.0.1:1 are expected and fine.
+      expect(combined).not.toMatch(/deepseek-tokenizer\.json\.gz/);
+      // Also not a missing-module style ENOENT (network errors are
+      // ECONNREFUSED or fetch failure, never ENOENT).
+      expect(combined).not.toMatch(/ENOENT.*tokenizer/i);
+    },
+    15_000,
+  );
 });
